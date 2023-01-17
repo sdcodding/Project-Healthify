@@ -1,5 +1,7 @@
 package com.hms.api.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +54,7 @@ public class AuthController {
 
 	// completed
 	@PostMapping("/login-user")
-	public ResponseEntity<?> loginAdmin(@RequestBody User user) throws AuthenticationException {
+	public ResponseEntity<?> loginAdmin(@RequestBody User user,HttpServletResponse response) throws AuthenticationException {
 
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -60,11 +63,11 @@ public class AuthController {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        final String token = jwtUtil.generateToken(authentication);
-        return ResponseEntity.ok(new JwtResponse(token));
+        final String token = jwtUtil.generateToken(authentication); 
+        response.addHeader("token", token);
+       return ResponseEntity.ok(new JwtResponse(token));
+    
     }
-
-	
 
 	// send otp api is in email cotroller
 
