@@ -19,7 +19,7 @@ public class Appointment {
 	private String appointmentpatientid;
 	
 	@Column(name = "DoctorId")
-	private int doctorid;
+	private String doctorid;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd")
@@ -64,11 +64,11 @@ public class Appointment {
 		this.appointmentpatientid = appointmentpatientid;
 	}
 
-	public int getDoctorid() {
+	public String getDoctorid() {
 		return doctorid;
 	}
 
-	public void setDoctorid(int doctorid) {
+	public void setDoctorid(String doctorid) {
 		this.doctorid = doctorid;
 	}
 

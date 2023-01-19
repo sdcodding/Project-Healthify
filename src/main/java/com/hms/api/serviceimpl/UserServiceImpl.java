@@ -37,8 +37,9 @@ public class UserServiceImpl implements UserService {
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setCreatedDate(date);
 		user.setPassword(encodedPassword);
-
-		return dao.addUser(user);
+		boolean isAdded = dao.addUser(user);
+		
+		return isAdded;
 	}
 
 	@Override
