@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             authToken = header.replace(JwtConstatnt.TOKEN_PREFIX,"");
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
-                System.out.println("User from token "+username);
+                //System.out.println("User from token "+username);
             } catch (IllegalArgumentException e) {
             	 System.err.println("an error occured during getting username from token");
             } catch (ExpiredJwtException e) {
@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             	 System.err.println("Authentication Failed. Username or Password not valid.");
             }
         } else {
-        	 System.err.println("couldn't find bearer string, will ignore the header");
+        	 System.err.println("couldn't find bearer string, will ignore the header ! Logged In With Credientials");
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
