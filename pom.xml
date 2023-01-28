@@ -18,6 +18,13 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
+	
+	 <!-- Jasper reports dependency. -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.11.0</version>
+        </dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -6,7 +6,7 @@ public class OTPGenerator {
 
 	public static int generateOtp() {
 		Random random = new Random();
-		String numbers = "0123456789";
+		String numbers = "123456789";
 		char[] otp = new char[6];
 
 		for (int i = 0; i < 6; i++) {

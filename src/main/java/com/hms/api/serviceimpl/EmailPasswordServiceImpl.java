@@ -93,6 +93,7 @@ public class EmailPasswordServiceImpl implements EmailPasswordService {
 	@Override
 	public String sendOtp(String UserId) {
 		String msg = null;
+		
 		try {
 			User user = userDao.getUserById(UserId);
 			if (user != null) {
@@ -108,7 +109,7 @@ public class EmailPasswordServiceImpl implements EmailPasswordService {
 					EmailDetails details = new EmailDetails();
 					details.setRecipient(user.getEmailid());
 					details.setSubject("HMS : Please Verify Your OTP");
-					details.setMsgBody("Hey " + UserId + "\n\n Your OTP : " + generatedOtp);
+					details.setMsgBody("Hey " + UserId + "\n\n Your OTP : " + generatedOtp + "\n\n Otp generated at : "+timestamp);
 					boolean isSent = sendMail(details);
 					if (isSent) {
 						msg = "Otp Has Been Sent To Email > " + user.getEmailid();

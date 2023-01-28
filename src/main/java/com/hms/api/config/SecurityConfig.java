@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public CustomUserDetailService customUserDetilService;
-	
+
 	@Autowired
 	private JwtAuthenticationFilter jwtFilter;
 
@@ -32,13 +32,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN") // ADMIN USER
-				.antMatchers("/doctor/**").hasRole("DOCTOR") // DOCTOR USER
-				//.antMatchers("/user/**").hasRole("ADMIN") // USER USER
-				.antMatchers("/pharmacist/**").hasRole("PHARMACIST") // PHARMACIST USER
-				.antMatchers("/receptionist/**").hasRole("RECEPTIONIST") // RECEPTIONIST USER
+		http.csrf().disable().authorizeRequests()
+		.antMatchers("/auth/**").permitAll().antMatchers("/swagger-ui.html").permitAll()
+		.and()
+		.authorizeRequests()
+		.antMatchers("/admin/**").hasRole("ADMIN") // ADMIN USER
 				.antMatchers("/appointment/**").hasRole("RECEPTIONIST") // RECEPTIONIST USER
-				.antMatchers("/auth/**").permitAll().antMatchers("/swagger-ui.html#/**").permitAll()
+				// .antMatchers("/doctor/**").hasRole("DOCTOR") // DOCTOR USER
+				// .antMatchers("/user/**").hasRole("ADMIN") // USER USER
+				// .antMatchers("/pharmacist/**").hasRole("PHARMACIST") // PHARMACIST USER
+				// .antMatchers("/receptionist/**").hasRole("RECEPTIONIST") // RECEPTIONIST USER
+
+				
 
 				.anyRequest().authenticated().and().httpBasic();
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -47,14 +52,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
-				"/configuration/security", "/swagger-ui.html#/**", "/webjars/**");
+				"/configuration/security", "/swagger-ui.html/**", "/webjars/**");
 	}
 
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder(10);
 	}
-	
+
 	@Bean
 	public AuthenticationManager authenticationManager() throws Exception {
 		return super.authenticationManager();

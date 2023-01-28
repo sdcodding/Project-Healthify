@@ -36,5 +36,9 @@ public interface UserService {
 	Role addRole(Role role);
 
 	public Role getRoleById(int roleId);
+	
+	
+	public String generateReport();
+	
 
 }

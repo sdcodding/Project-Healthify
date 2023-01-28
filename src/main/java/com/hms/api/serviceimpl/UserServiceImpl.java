@@ -1,5 +1,6 @@
 package com.hms.api.serviceimpl;
 
+import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,6 +19,13 @@ import com.hms.api.entity.Role;
 import com.hms.api.entity.User;
 import com.hms.api.security.CustomUserDetail;
 import com.hms.api.service.UserService;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,7 +46,7 @@ public class UserServiceImpl implements UserService {
 		user.setCreatedDate(date);
 		user.setPassword(encodedPassword);
 		boolean isAdded = dao.addUser(user);
-		
+
 		return isAdded;
 	}
 
@@ -89,14 +97,14 @@ public class UserServiceImpl implements UserService {
 	public Long getUsersTotalCounts() {
 		return dao.getUsersTotalCounts();
 	}
-	
+
 	@Override
 	public Long getUsersTotalCounts(String type) {
 		return dao.getUsersTotalCounts(type);
 	}
 
 	@Override
-	public Long getUserCountByDateAndType(Date registereddate,String type) {
+	public Long getUserCountByDateAndType(Date registereddate, String type) {
 		return dao.getUserCountByDateAndType(registereddate, type);
 	}
 
@@ -104,8 +112,6 @@ public class UserServiceImpl implements UserService {
 	public List<User> getUserByFirstName(String firstName) {
 		return dao.getUserByFirstName(firstName);
 	}
-
-	
 
 	@Override
 	public Role addRole(Role role) {
@@ -123,6 +129,34 @@ public class UserServiceImpl implements UserService {
 	public Role getRoleById(int roleId) {
 
 		return dao.getRoleById(roleId);
+	}
+
+	@Override
+	public String generateReport() {
+		List<User> allUsers = dao.getAllUsers();
+		try {
+			// Fetching the .jrxml file from the resources folder.
+	        final InputStream stream = this.getClass().getResourceAsStream("/User.jrxml");
+	 
+	        // Compile the Jasper report from .jrxml to .japser
+	        final JasperReport report = JasperCompileManager.compileReport(stream);
+	 
+	        // Fetching the employees from the data source.
+	        final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(allUsers);
+	        
+	        // Filling the report with the employee data and additional parameters information.
+	        final JasperPrint print = JasperFillManager.fillReport(report, null, source);
+	        
+	        //final String filePath = "C:\\Users\\RAM\\Downloads\\";
+	        String filePath = System.getProperty("user.home");
+	        // Export the report to a PDF file.
+	        JasperExportManager.exportReportToPdfFile(print, filePath + "/Downloads/User.pdf");
+	 
+	 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "generated";
 	}
 
 }

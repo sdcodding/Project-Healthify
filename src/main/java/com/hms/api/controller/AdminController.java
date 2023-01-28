@@ -146,5 +146,13 @@ public class AdminController {
 	}
 	}
 	
+	
+	@GetMapping(value = "/user/report")
+	public String generateReport(){
+		
+		return userService.generateReport();
+		
+	}
+	
 
 }

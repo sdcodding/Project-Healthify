@@ -42,10 +42,6 @@ public class EmailController {
 		return new ResponseEntity<String>(message,HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/check")
-	public String check() {
-		return "checked";
-	}
 	
 	
 
