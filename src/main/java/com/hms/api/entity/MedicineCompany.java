@@ -5,7 +5,10 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
+import org.eclipse.jdt.internal.compiler.ast.FalseLiteral;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,30 +20,36 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 public class MedicineCompany {
 	@Id
-	@Column(name = "Id")
+	@Column(name = "Id",nullable = false)
 	private String id;
 
-	@Column(name = "Name")
+	@Column(name = "Name",nullable = false)
+	@NotBlank(message = "MedicineCompany Name Is Required")
 	private String name;
 
-	@Column(name = "EmailId")
+	@Column(name = "EmailId",nullable = false)
+	@NotBlank(message = "EmailId Is Required")
 	private String emailid;
 
-	@Column(name = "MobileNo")
+	@Column(name = "MobileNo",nullable = false)
+	@NotBlank(message = "MobileNo Is Required")
 	private String mobileNo;
 
-	@Column(name = "Street")
+	@Column(name = "Street",nullable = false)
+	@NotBlank(message = "Street Is Required")
 	private String street;
 
-	@Column(name = "City")
+	@Column(name = "City",nullable = false)
+	@NotBlank(message = "City Is Required")
 	private String city;
 
-	@Column(name = "Pincode")
+	@Column(name = "Pincode",nullable = false)
+	@NotBlank(message = "Pincode Is Requird")
 	private String pincode;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd")
-	@Column(name = "RegisterDate")
+	@Column(name = "RegisterDate",nullable = false)
 	private Date registerDate;
 
 	public MedicineCompany() {

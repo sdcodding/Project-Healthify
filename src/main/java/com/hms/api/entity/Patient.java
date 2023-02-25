@@ -4,6 +4,8 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,34 +17,41 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 public class Patient {
 	@Id
-	@Column(name = "Id")
+	@Column(name = "Id",nullable = false)
 	private String id;
 
-	@Column(name = "FirstName")
+	@Column(name = "FirstName",nullable = false)
+	@NotBlank(message = "FirstName Is Required")
 	private String firstName;
 
-	@Column(name = "LastName")
+	@Column(name = "LastName",nullable = false)
+	@NotBlank(message = "LastName Is Required")
 	private String lastName;
 
-	@Column(name = "EmailId")
+	@Column(name = "EmailId",nullable = false)
+	@NotBlank(message = "EmailId Is Required")
 	private String emailId;
 
-	@Column(name = "Age")
+	@Column(name = "Age",nullable = false)
+	@NotBlank(message = "Age Is Required")
 	private int age;
 
 	@Column(name = "BloodGroup")
 	private String bloodGroup;
 
-	@Column(name = "MobileNo")
+	@Column(name = "MobileNo",nullable = false)
+	@NotBlank(message = "MobileNo Is Required")
 	private String mobileNo;
 
 	@Column(name = "Street")
 	private String street;
 
-	@Column(name = "City")
+	@Column(name = "City",nullable = false)
+	@NotBlank(message = "City Is Required")
 	private String city;
 
-	@Column(name = "Pincode")
+	@Column(name = "Pincode",nullable = false)
+	@NotBlank(message = "Pincode Is Required")
 	private String pincode;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -158,12 +167,6 @@ public class Patient {
 		this.registerDate = registerDate;
 	}
 
-	@Override
-	public String toString() {
-		return "Patient [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", emailId=" + emailId
-				+ ", age=" + age + ", bloodGroup=" + bloodGroup + ", mobileNo=" + mobileNo + ", street=" + street
-				+ ", city=" + city + ", pincode=" + pincode + ", registerDate=" + registerDate + "]";
-	}
 	
 	
 

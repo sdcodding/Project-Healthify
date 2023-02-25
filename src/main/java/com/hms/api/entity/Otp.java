@@ -1,6 +1,8 @@
 package com.hms.api.entity;
 
 import java.sql.Timestamp;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -8,8 +10,13 @@ import javax.persistence.Id;
 public class Otp {
 	
 	@Id
+	@Column(name = "userId",nullable = false)
 	private String userId;
+	
+	@Column(name = "otp",nullable = false)
 	private int otp;
+	
+	@Column(name = "timestamp",nullable = false)
 	private Timestamp timestamp;
 	
 	public Otp() {

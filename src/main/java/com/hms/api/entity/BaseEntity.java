@@ -1,60 +1,38 @@
 package com.hms.api.entity;
 
-import java.sql.Date;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-/**
- * @author RAM
- *
- */
-@Entity
-public class MedicineDistributor {
+public class BaseEntity {
+	
 	@Id
 	@Column(name = "Id",nullable = false)
 	private String id;
 
 	@Column(name = "Name",nullable = false)
-	@NotBlank(message = "Name Is Required")
 	private String name;
 
 	@Column(name = "EmailId",nullable = false)
-	@NotBlank(message = "EmailId Is Required")
 	private String emailId;
 
 	@Column(name = "MobileNo",nullable = false)
-	@NotBlank(message = "MobileNo Is Required")
 	private String mobileNo;
 
 	@Column(name = "Street",nullable = false)
-	@NotBlank(message = "City Is Required")
 	private String street;
 
 	@Column(name = "City",nullable = false)
-	@NotBlank(message = "Street Is Required")
 	private String city;
 
-	@Column(name = "Pincode",nullable = false)
-	@NotBlank(message = "Pincode Is Required")
+	@Column(name = "Pincode")
 	private String pincode;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern="yyyy-MM-dd")
-	@Column(name = "RegisterDate",nullable = false)
-	private Date registerDate;
-
-	public MedicineDistributor() {
+	
+	 public BaseEntity() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MedicineDistributor(String id, String name, String emailId, String mobileNo, String street, String city,
-			String pincode, Date registerDate) {
+	public BaseEntity(String id, String name, String emailId, String mobileNo, String street, String city,
+			String pincode) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -63,7 +41,6 @@ public class MedicineDistributor {
 		this.street = street;
 		this.city = city;
 		this.pincode = pincode;
-		this.registerDate = registerDate;
 	}
 
 	public String getId() {
@@ -121,13 +98,7 @@ public class MedicineDistributor {
 	public void setPincode(String pincode) {
 		this.pincode = pincode;
 	}
-
-	public Date getRegisterDate() {
-		return registerDate;
-	}
-
-	public void setRegisterDate(Date registerDate) {
-		this.registerDate = registerDate;
-	}
+	 
+	 
 
 }

@@ -4,6 +4,8 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -18,6 +20,7 @@ public class Appointment {
 	@Column(name = "AppointmentPatientId")
 	private String appointmentpatientid;
 	
+	@NotNull(message ="DoctorId Is Required")
 	@Column(name = "DoctorId")
 	private String doctorid;
 	
@@ -32,19 +35,21 @@ public class Appointment {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Column(name = "AppointmentDate")
+	@NotNull(message = "AppointmentDate Is Requird")
 	private Date appointmentdate;
 	
-	
+	@NotNull(message = "AppointmentTime Is Requird")
 	@Column(name = "AppointmentTime")
 	private String appointmenttime;
 	
+	@NotNull(message = "ProblemDescription Is Requird")
 	@Column(name = "ProblemDescription")
 	private String problemdescription;
 	
 	@Column(name = "TreatmentStatus",nullable = false, columnDefinition = "varchar(255) default 'Pending'")
 	private String treatmentstatus;
 	
-	@Column(name = "TreatmentCost")
+	@Column(name = "TreatmentPrice")
 	private double treatmentprice;
 	
 	@Column(name = "BillMade")

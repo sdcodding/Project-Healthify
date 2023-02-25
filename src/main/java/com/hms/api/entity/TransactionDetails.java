@@ -1,20 +1,18 @@
 package com.hms.api.entity;
 
-import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
 @Entity
 public class TransactionDetails {
 
 	@Id
+	@Column(nullable = false)
 	private String transactionId;
 
+	
 	private int month;
 	private String name;
 	private String designation;
