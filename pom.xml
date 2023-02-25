@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hms</groupId>
-	<artifactId>HMS</artifactId>
+	<artifactId>HEALTHIFY</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>HMS</name>
+	<name>HEALTHIFY</name>
 	<description>Hospital Management System</description>
 	<properties>
 		<java.version>1.8</java.version>
