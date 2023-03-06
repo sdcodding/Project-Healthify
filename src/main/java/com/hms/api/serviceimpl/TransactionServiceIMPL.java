@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.hms.api.dao.TransactionDao;
 import com.hms.api.entity.TransactionDetails;
 import com.hms.api.service.TransactionService;
+import com.hms.api.utility.NumberToWords;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -69,8 +70,8 @@ public class TransactionServiceIMPL implements TransactionService {
 				map.put("professionalTax", details.getProfessionalTax());
 				map.put("netSalary", details.getNetSalary());
 				map.put("grossSalary", details.getGrossSalary());
-
-				
+				String amountInWord = NumberToWords.convert((long)details.getTotalPayForTheMonth());
+				map.put("amountInWord", amountInWord);
 				final JasperPrint print = JasperFillManager.fillReport(report, map, new JREmptyDataSource());
 
 				path = System.getProperty("user.home") + "/Downloads/paySlip_" + month.toString() + ".pdf";

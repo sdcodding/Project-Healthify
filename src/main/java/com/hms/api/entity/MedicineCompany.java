@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.eclipse.jdt.internal.compiler.ast.FalseLiteral;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,15 +24,15 @@ public class MedicineCompany {
 	@Column(name = "Id",nullable = false)
 	private String id;
 
-	@Column(name = "Name",nullable = false)
+	@Column(name = "Name",nullable = false,unique = true)
 	@NotBlank(message = "MedicineCompany Name Is Required")
 	private String name;
 
-	@Column(name = "EmailId",nullable = false)
+	@Column(name = "EmailId",nullable = false,unique = true)
 	@NotBlank(message = "EmailId Is Required")
 	private String emailid;
 
-	@Column(name = "MobileNo",nullable = false)
+	@Column(name = "MobileNo",nullable = false,unique = true)
 	@NotBlank(message = "MobileNo Is Required")
 	private String mobileNo;
 

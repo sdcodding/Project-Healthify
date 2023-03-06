@@ -22,6 +22,7 @@
 	<parameter name="professionalTax" class="java.lang.Float"/>
 	<parameter name="netSalary" class="java.lang.Float"/>
 	<parameter name="grossSalary" class="java.lang.Float"/>
+	<parameter name="amountInWord" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -431,7 +432,7 @@
 				<textFieldExpression><![CDATA[$P{totalPayForTheMonth}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="-11" y="204" width="831" height="1" uuid="d829f4ff-98a5-4eea-a81c-01831a0a63de"/>
+				<reportElement x="-9" y="240" width="819" height="1" uuid="d829f4ff-98a5-4eea-a81c-01831a0a63de"/>
 				<graphicElement>
 					<pen lineWidth="2.0"/>
 				</graphicElement>
@@ -495,6 +496,26 @@
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{grossSalary}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-10" y="210" width="130" height="20" uuid="2e7398ae-ed6a-4a6e-b829-7a3528adbbf0"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Amount In Word : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="210" width="690" height="20" uuid="2aecd712-62bf-4c5a-9b2d-8a258b1dfbba"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ $P{amountInWord}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
