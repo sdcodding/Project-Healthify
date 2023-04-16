@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hms.api.aop.TrackExecutionTime;
 import com.hms.api.entity.User;
 import com.hms.api.exception.InvalidCredentialsException;
 import com.hms.api.exception.ResourceAlreadyExistsException;
@@ -54,6 +55,7 @@ public class AuthController {
 
 	// completed
 	@PostMapping("/login-user")
+	@TrackExecutionTime
 	public ResponseEntity<?> loginAdmin(@RequestBody User user,HttpServletResponse response) throws AuthenticationException {
 
         final Authentication authentication = authenticationManager.authenticate(
@@ -62,7 +64,7 @@ public class AuthController {
                         user.getPassword()
                 )
         );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication); //check 
         final String token = jwtUtil.generateToken(authentication); 
         response.addHeader("token", token);
        return ResponseEntity.ok(new JwtResponse(token));

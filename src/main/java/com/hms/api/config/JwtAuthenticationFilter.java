@@ -38,6 +38,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String username = null;
         String authToken = null;
         if (header != null && header.startsWith(JwtConstatnt.TOKEN_PREFIX)) {
+        	
+        //header=	Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYW0iLCJzY29wZXMiOiJST0xFX0FETUlOIiwiaWF0IjoxNjgxMTEyOTUyLCJleHAiOjE2ODExMzA5NTJ9.SHNB6bgI_HgWFBZyhNnG0nQO7SWvJLfaxmSDAeRkZiw
+        	
             authToken = header.replace(JwtConstatnt.TOKEN_PREFIX,"");
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
@@ -58,7 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
-                //UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
                 System.err.println("authenticated user " + username + ", setting security context");
                 SecurityContextHolder.getContext().setAuthentication(authentication);

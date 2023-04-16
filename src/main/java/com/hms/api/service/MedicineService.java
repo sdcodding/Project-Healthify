@@ -1,10 +1,6 @@
 package com.hms.api.service;
-
 import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.hms.api.entity.Medicine;
 
 /**
@@ -14,6 +10,7 @@ import com.hms.api.entity.Medicine;
 @Transactional
 public interface MedicineService {
 	Medicine addMedicine(Medicine medicine);
+	
 	boolean deleteMedicineById(String id);
 	Medicine getMedicineById(String id);
 	Medicine updateMedicine(Medicine medicine);

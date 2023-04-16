@@ -40,7 +40,7 @@ public class NumberToWords {
 			String afterfirst = w.substring(1);
 			capitalizeWord += first.toUpperCase() + afterfirst + " ";
 		}
-		return capitalizeWord;
+		return capitalizeWord+ " Rupees Only";
 	}
 
 	public static String convert(long number) {

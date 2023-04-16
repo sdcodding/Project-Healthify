@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hms.api.dao.UserDao;
@@ -67,8 +68,8 @@ public class EmailPasswordServiceImpl implements EmailPasswordService {
 				if (detail.getQuestion().equals(user.getQuestion()) && detail.getAnswer().equals(user.getAnswer())) {
 					if (detail.getNewPassword().endsWith(detail.getConfirmPassword())) {
 						User updateUser = userDao.getUserById(detail.getUserId());
-						updateUser.setPassword(detail.getNewPassword());
-						User updatedUser = userDao.updateUser(updateUser);
+						
+						User updatedUser = userService.updateUser(updateUser);
 						if (updatedUser != null) {
 							message = "Password Updated Successfully";
 						} else {
@@ -117,6 +118,9 @@ public class EmailPasswordServiceImpl implements EmailPasswordService {
 						msg = "Error Occured While Sending OTP On "+ user.getEmailid()+"! \n Check Email Address Of User "+UserId;
 					}
 
+				}
+				else {
+					msg="Something Wrong While Save OTP";
 				}
 
 			} else {

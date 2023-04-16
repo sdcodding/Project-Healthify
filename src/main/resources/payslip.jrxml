@@ -23,6 +23,7 @@
 	<parameter name="netSalary" class="java.lang.Float"/>
 	<parameter name="grossSalary" class="java.lang.Float"/>
 	<parameter name="amountInWord" class="java.lang.String"/>
+	<parameter name="title" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -515,7 +516,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[ $P{amountInWord}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{amountInWord}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
