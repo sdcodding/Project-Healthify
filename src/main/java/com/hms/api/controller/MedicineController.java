@@ -1,6 +1,7 @@
 package com.hms.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hms.api.entity.Medicine;
 import com.hms.api.exception.ResourceNotFoundException;
@@ -34,12 +37,12 @@ public class MedicineController {
 	private static Logger LOG = LogManager.getLogger(MedicineController.class);
 
 	@PostMapping(value = "/add-medicine")
-	public ResponseEntity<Medicine> addMedicine(@RequestBody Medicine medicine) {
+	public ResponseEntity<Boolean> addMedicine(@RequestBody Medicine medicine) {
 
-		Medicine addMedicine = medicineService.addMedicine(medicine);
-		if (addMedicine != null) {
+		boolean isAdded = medicineService.addMedicine(medicine);
+		if (isAdded) {
 			LOG.info("Medicine Saved Successfully: " + medicine);
-			return new ResponseEntity<Medicine>(addMedicine, HttpStatus.ACCEPTED);
+			return new ResponseEntity<Boolean>(isAdded, HttpStatus.ACCEPTED);
 		} else {
 			LOG.info("Medicine Failed To Add: " + medicine.getId());
 			throw new ResourceNotFoundException(
@@ -119,5 +122,12 @@ public class MedicineController {
 			LOG.info("No Medicines Present in DB so Method Failed");
 			throw new ResourceNotFoundException("No Medicines Are Stored in Database");
 		}
+	}
+
+	@PostMapping(value = "/uploadSheet")
+	public ResponseEntity<Map<String, Object>> uploadSheet(@RequestParam MultipartFile file) {
+		Map<String, Object> map = medicineService.uploadSheet(file);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+
 	}
 }

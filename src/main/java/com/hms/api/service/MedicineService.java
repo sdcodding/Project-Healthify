@@ -1,6 +1,11 @@
 package com.hms.api.service;
+
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.hms.api.entity.Medicine;
 
 /**
@@ -9,16 +14,27 @@ import com.hms.api.entity.Medicine;
  */
 @Transactional
 public interface MedicineService {
-	Medicine addMedicine(Medicine medicine);
-	
+	boolean addMedicine(Medicine medicine);
+
+	public Map<String, Object> uploadSheet(MultipartFile file);
+
 	boolean deleteMedicineById(String id);
+
 	Medicine getMedicineById(String id);
+
 	Medicine updateMedicine(Medicine medicine);
+
 	List<Medicine> getAllMedicine();
+
 	List<Medicine> getMedicinesByName(String medicineName);
+
 	Medicine getMedicineByName(String medicineName);
+
 	List<Medicine> getMedicinesWithQuantityMoreThanZero(int quantity);
+
 	Long getCountOfMedicineByDateAdded(String dateAdded);
-    Long getMedicinesTotalCount();
-    List<Medicine> getTop5MedicineAddedByDate(String date);
+
+	Long getMedicinesTotalCount();
+
+	List<Medicine> getTop5MedicineAddedByDate(String date);
 }

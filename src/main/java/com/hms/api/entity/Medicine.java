@@ -51,6 +51,7 @@ public class Medicine {
 	@NotBlank(message = "ExpiryDate Is Requird")
 	private Date expiryDate;
 
+	//current date
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "MedicineAddedDateInStock")

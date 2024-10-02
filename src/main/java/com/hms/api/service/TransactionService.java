@@ -1,5 +1,7 @@
 package com.hms.api.service;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hms.api.entity.TransactionDetails;
@@ -9,6 +11,6 @@ public interface TransactionService {
 
 	public int generateSalaryForUser(TransactionDetails transactionDetails);
 
-	public String generateSalaryreportForUser(String username, int from, int to);
+	public List<String> generateSalaryreportForUser(String username, int from, int to);
 
 }

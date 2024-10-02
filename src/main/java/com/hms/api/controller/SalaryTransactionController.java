@@ -1,5 +1,7 @@
 package com.hms.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +30,10 @@ public class SalaryTransactionController {
 	}
 
 	@GetMapping(value = "/generateSalaryReport/{username}/{from}/{to}")
-	public ResponseEntity<String> generateSalaryreportForUser(@PathVariable String username, @PathVariable int from,
+	public ResponseEntity<List<String>> generateSalaryreportForUser(@PathVariable String username, @PathVariable int from,
 			@PathVariable int to) {
-		String path = service.generateSalaryreportForUser(username, from, to);
-		return ResponseEntity.ok(path);
+		List<String> paths = service.generateSalaryreportForUser(username, from, to);
+		return ResponseEntity.ok(paths);
 
 	}
 

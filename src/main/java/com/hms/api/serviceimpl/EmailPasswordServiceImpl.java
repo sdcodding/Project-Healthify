@@ -6,13 +6,17 @@ package com.hms.api.serviceimpl;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hms.api.controller.AdminController;
 import com.hms.api.dao.UserDao;
 import com.hms.api.entity.Otp;
 import com.hms.api.entity.User;
@@ -24,13 +28,14 @@ import com.hms.api.utility.OTPGenerator;
 
 @Service
 public class EmailPasswordServiceImpl implements EmailPasswordService {
+	private static Logger LOG = LogManager.getLogger(EmailPasswordServiceImpl.class);
 
 	@Autowired
 	private JavaMailSender javaMailSender;
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -52,7 +57,9 @@ public class EmailPasswordServiceImpl implements EmailPasswordService {
 			isSent = true;
 		}
 
-		catch (Exception e) {
+		catch (MailException e) {
+			isSent = false;
+		} catch (Exception e) {
 			e.printStackTrace();
 			isSent = false;
 		}
@@ -68,17 +75,21 @@ public class EmailPasswordServiceImpl implements EmailPasswordService {
 				if (detail.getQuestion().equals(user.getQuestion()) && detail.getAnswer().equals(user.getAnswer())) {
 					if (detail.getNewPassword().endsWith(detail.getConfirmPassword())) {
 						User updateUser = userDao.getUserById(detail.getUserId());
-						
+
 						User updatedUser = userService.updateUser(updateUser);
 						if (updatedUser != null) {
+
 							message = "Password Updated Successfully";
 						} else {
+
 							message = "Error While Updating Password";
+							LOG.info(message);
 						}
 					} else {
 						message = "New & Confirm Password Must Be Same";
 					}
 				} else {
+					LOG.info("Wrong Security Q & A");
 					message = "Wrong Security Q & A";
 				}
 			} else {
@@ -86,6 +97,7 @@ public class EmailPasswordServiceImpl implements EmailPasswordService {
 			}
 
 		} catch (Exception e) {
+			LOG.error(e);
 			e.printStackTrace();
 		}
 		return message;
@@ -94,7 +106,7 @@ public class EmailPasswordServiceImpl implements EmailPasswordService {
 	@Override
 	public String sendOtp(String UserId) {
 		String msg = null;
-		
+
 		try {
 			User user = userDao.getUserById(UserId);
 			if (user != null) {
@@ -110,17 +122,18 @@ public class EmailPasswordServiceImpl implements EmailPasswordService {
 					EmailDetails details = new EmailDetails();
 					details.setRecipient(user.getEmailid());
 					details.setSubject("HMS : Please Verify Your OTP");
-					details.setMsgBody("Hey " + UserId + "\n\n Your OTP : " + generatedOtp + "\n\n Otp generated at : "+timestamp);
+					details.setMsgBody("Hey " + UserId + "\n\n Your OTP : " + generatedOtp + "\n\n Otp generated at : "
+							+ timestamp);
 					boolean isSent = sendMail(details);
 					if (isSent) {
 						msg = "Otp Has Been Sent To Email > " + user.getEmailid();
 					} else {
-						msg = "Error Occured While Sending OTP On "+ user.getEmailid()+"! \n Check Email Address Of User "+UserId;
+						msg = "Error Occured While Sending OTP On " + user.getEmailid()
+								+ "! \n Check Email Address Of User " + UserId;
 					}
 
-				}
-				else {
-					msg="Something Wrong While Save OTP";
+				} else {
+					msg = "Something Wrong While Save OTP";
 				}
 
 			} else {

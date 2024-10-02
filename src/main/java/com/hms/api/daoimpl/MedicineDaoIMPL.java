@@ -9,7 +9,6 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,21 +26,20 @@ public class MedicineDaoIMPL implements MedicineDao {
 	private SessionFactory sf;
 
 	@Override
-	public Medicine addMedicine(Medicine medicine) {
+	public boolean addMedicine(Medicine medicine) {
 		Session session = sf.getCurrentSession();
-		Medicine medicineDB = null;
+		boolean isAdded = false;
 
 		try {
-			medicineDB = session.get(Medicine.class, medicine.getId());
-			if (medicineDB == null) {
+			 Medicine dbMedicine = session.get(Medicine.class, medicine.getId());
+			if (dbMedicine == null) {
 				session.save(medicine);
-			} else {
-				medicine = null;
-			}
+				isAdded=true;
+			} 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
-		return medicine;
+		}
+		return isAdded;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -53,12 +51,12 @@ public class MedicineDaoIMPL implements MedicineDao {
 		List<Medicine> medicines = null;
 
 		try {
-			Criterion like = Restrictions.like("name", "%"+medicineName+"%");
+			Criterion like = Restrictions.like("name", "%" + medicineName + "%");
 			criteria.add(like);
 			medicines = criteria.list();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 		return medicines;
 	}
 
@@ -78,7 +76,7 @@ public class MedicineDaoIMPL implements MedicineDao {
 			medicine = medicines.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 		return medicine;
 	}
 
@@ -119,6 +117,7 @@ public class MedicineDaoIMPL implements MedicineDao {
 		@SuppressWarnings("deprecation")
 		Criteria criteria = session.createCriteria(Medicine.class);
 		long medicinesCount = 0;
+
 		try {
 			criteria.setProjection(Projections.rowCount());
 			medicinesCount = (long) criteria.list().get(0);
@@ -128,7 +127,6 @@ public class MedicineDaoIMPL implements MedicineDao {
 		}
 		return medicinesCount;
 	}
-
 
 	@Override
 	public List<Medicine> findTop5ByIdDesc(String date) {
@@ -141,7 +139,6 @@ public class MedicineDaoIMPL implements MedicineDao {
 		return null;
 	}
 
-	
 	@Override
 	public boolean deleteMedicineById(String id) {
 		Session session = sf.getCurrentSession();
@@ -166,7 +163,6 @@ public class MedicineDaoIMPL implements MedicineDao {
 		return medicine;
 	}
 
-	
 	@Override
 	public Medicine updateMedicine(Medicine medicine) {
 		Session session = sf.getCurrentSession();
@@ -192,6 +188,39 @@ public class MedicineDaoIMPL implements MedicineDao {
 			e.printStackTrace();
 		}
 		return medicines;
+	}
+
+	@Override
+	public int[] uploadProductList(List<Medicine> list) {
+		Session session = null;
+		int uploadedCount = 0;
+		int existCount = 0;
+		int[] arr = new int[2];
+		try {
+
+			for (Medicine medicine : list) {
+
+				boolean isAdded = addMedicine(medicine);
+				if (isAdded) {
+					uploadedCount = uploadedCount + 1;
+				} else {
+					existCount = existCount + 1;
+				}
+
+			}
+			arr[0] = uploadedCount;
+			arr[1] = existCount;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+
+			}
+		}
+
+		return arr;
 	}
 
 }

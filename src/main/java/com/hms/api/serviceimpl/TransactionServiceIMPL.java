@@ -3,6 +3,7 @@ package com.hms.api.serviceimpl;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +37,10 @@ public class TransactionServiceIMPL implements TransactionService {
 	}
 
 	@Override
-	public String generateSalaryreportForUser(String username, int from, int to) {
+	public List<String> generateSalaryreportForUser(String username, int from, int to) {
 		String path = null;
 		Map<String, Object> map = null;
+		List<String> paths=new ArrayList<>();
 		try {
 			InputStream stream = this.getClass().getResourceAsStream("/payslip.jrxml");
 			JasperReport report = JasperCompileManager.compileReport(stream);
@@ -75,6 +77,7 @@ public class TransactionServiceIMPL implements TransactionService {
 				final JasperPrint print = JasperFillManager.fillReport(report, map, new JREmptyDataSource());
 
 				path = System.getProperty("user.home") + "/Downloads/paySlip_" + month.toString() + ".pdf";
+				paths.add(path);
 
 				JasperExportManager.exportReportToPdfFile(print, path);
 			}
@@ -82,7 +85,7 @@ public class TransactionServiceIMPL implements TransactionService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return path;
+		return paths;
 	}
 
 }

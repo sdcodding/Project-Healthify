@@ -1,6 +1,7 @@
 package com.hms.api.constants;
 
-public interface JwtConstatnt {
+public interface JwtConstatnt 
+{
 	public static final String HEADER_STRING = "Authorization";
 	public static final String TOKEN_PREFIX = "Bearer ";
 	public static final String SIGNING_KEY = "hms123";

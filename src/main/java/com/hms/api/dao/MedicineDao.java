@@ -12,7 +12,7 @@ import com.hms.api.entity.Medicine;
  */
 public interface MedicineDao {
 
-	public Medicine addMedicine(Medicine medicine);
+	public boolean addMedicine(Medicine medicine);
 
 	List<Medicine> findByNameContainingIgnoreCase(String medicineName);
 
@@ -33,5 +33,7 @@ public interface MedicineDao {
 	public Medicine updateMedicine(Medicine medicine);
 
 	public List<Medicine> getAllMedicine();
+
+	public int[] uploadProductList(List<Medicine> list);
 
 }

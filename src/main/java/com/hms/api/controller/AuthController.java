@@ -76,6 +76,7 @@ public class AuthController {
 	@PostMapping(value = "/reset-password-by-qa")
 	public ResponseEntity<String> resetPasswordByQA(@RequestBody ResetPasswordDetail detail) {
 		String message = emailPasswordService.resetPasswordByQA(detail);
+		
 		return new ResponseEntity<String>(message, HttpStatus.OK);
 
 	}
